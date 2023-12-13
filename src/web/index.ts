@@ -102,12 +102,14 @@ async function subscribe () {
       showAlert('subscribe - service worker is not registered');
       return;
     }
-
+    // 구독을 요청하는 부분  ,
+    // subscription 변수가 반환받은 구독정보
     const subscription = await registration.pushManager.subscribe({
       applicationServerKey: vapidPublicKey,
       userVisibleOnly: true,
     });
     store.pushSubscription = subscription;
+    // 구독정보를 우리 서버에 보냄
     await postSubscription(subscription);
   } catch (error) {
     console.error('subscribe', { error });

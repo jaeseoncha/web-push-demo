@@ -13,7 +13,9 @@ import {
 } from './constants';
 import { Store, PushMessage } from './types';
 
+// GCM_KEY (apikey ) 를 넣어서, 구글클라우드콘솔의 프로젝트에 pushapi를 쓸수있음
 webpush.setGCMAPIKey(GCM_KEY);
+// 필요한 정보들 세팅 ,( subject(?) ,공개키 ,비공개키)
 webpush.setVapidDetails(
   SUBJECT,
   VAPID_PUBLIC,
@@ -88,6 +90,7 @@ app.post('/send-push-notification', (req, res) => {
       body: message || '(Empty message)',
     };
 
+    // 구독정보, 메시지, (상단에 공개키,비공개키 ,api키 )를 구글 푸쉬서비스에 보냄
     webpush
       .sendNotification(targetUser.subscription, JSON.stringify(messageData))
       .then((pushServiceRes) => res.status(pushServiceRes.statusCode).end())
